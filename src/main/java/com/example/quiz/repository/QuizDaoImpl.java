@@ -24,7 +24,7 @@ public class QuizDaoImpl implements QuizDao {
     @Override
     public List<Quiz> findAll() {
         
-        String sql = "SELECT id, question, choice1, choice2, choice3, choice4, answer "
+        String sql = "SELECT id, question, choice1, choice2, choice3, choice4, answer, file_name "
                         + "FROM quiz";
         
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql);
@@ -39,6 +39,7 @@ public class QuizDaoImpl implements QuizDao {
             quiz.setChoice3((String)result.get("choice3"));
             quiz.setChoice4((String)result.get("choice4"));
             quiz.setAnswer((String)result.get("answer"));
+            quiz.setFileName((String)result.get("file_name"));
 
             quizList.add(quiz);
         }
@@ -51,7 +52,7 @@ public class QuizDaoImpl implements QuizDao {
     @Override
     public Optional<Quiz> findById(int id) {
         
-        String sql = "SELECT id, question, choice1, choice2, choice3, choice4, answer "
+        String sql = "SELECT id, question, choice1, choice2, choice3, choice4, answer, file_name "
                         + "FROM quiz WHERE id = ?";
 
         Map<String, Object> result = jdbcTemplate.queryForMap(sql, id);
@@ -64,6 +65,7 @@ public class QuizDaoImpl implements QuizDao {
         quiz.setChoice3((String)result.get("choice3"));
         quiz.setChoice4((String)result.get("choice4"));
         quiz.setAnswer((String)result.get("answer"));
+        quiz.setFileName((String)result.get("file_name"));
 
         Optional<Quiz> quizOpt = Optional.ofNullable(quiz);
 
@@ -73,16 +75,16 @@ public class QuizDaoImpl implements QuizDao {
     @Override
     public void insert(Quiz quiz) {
         jdbcTemplate.update(
-            "INSERT INTO quiz(question, choice1, choice2, choice3, choice4, answer) VALUES (? ? ? ? ? ?)",
-            quiz.getQuestion(), quiz.getChoice1(), quiz.getChoice2(), quiz.getChoice3(), quiz.getChoice4(), quiz.getAnswer()
+            "INSERT INTO quiz(question, choice1, choice2, choice3, choice4, answer, file_name) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            quiz.getQuestion(), quiz.getChoice1(), quiz.getChoice2(), quiz.getChoice3(), quiz.getChoice4(), quiz.getAnswer(), quiz.getFileName()
         );
     }
 
     @Override
     public int update(Quiz quiz) {
         return jdbcTemplate.update(
-            "UPDATE quiz SET question = ?, choice1 = ?, choice2 = ?, choice3 = ?, choice4 = ?, answer = ? WHERE id = ?",
-            quiz.getQuestion(), quiz.getChoice1(), quiz.getChoice2(), quiz.getChoice3(), quiz.getChoice4(), quiz.getAnswer(), quiz.getId()
+            "UPDATE quiz SET question = ?, choice1 = ?, choice2 = ?, choice3 = ?, choice4 = ?, answer = ?, file_name = ? WHERE id = ?",
+            quiz.getQuestion(), quiz.getChoice1(), quiz.getChoice2(), quiz.getChoice3(), quiz.getChoice4(), quiz.getAnswer(), quiz.getFileName(), quiz.getId()
         );
     }
     

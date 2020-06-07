@@ -1,7 +1,11 @@
 package com.example.quiz.app;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class QuizForm {
     
@@ -26,10 +30,12 @@ public class QuizForm {
     private String choice4;
 
     @NotNull(message = "答えを入力してください")
-    @Size(min = 1, max = 200, message = "200文字以内で入力してください")
     private String answer;
 
-    public boolean isNewQuiz;
+    private MultipartFile uploadFile;
+    private String fileName;
+
+    private int id;
 
     public QuizForm(){}
 
@@ -81,13 +87,31 @@ public class QuizForm {
         this.answer = answer;
     }
 
-    public boolean isNewQuiz() {
-        return isNewQuiz;
+    public int getId() {
+        return id;
     }
 
-    public void setNewQuiz(boolean isNewQuiz) {
-        this.isNewQuiz = isNewQuiz;
+    public void setId(int id) {
+        this.id = id;
     }
+
+    public MultipartFile getUploadFile() {
+        return uploadFile;
+    }
+
+    public void setUploadFile(MultipartFile uploadFile) {
+        this.uploadFile = uploadFile;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    
 
     
 

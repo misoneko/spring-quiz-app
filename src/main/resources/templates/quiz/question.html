@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Question</title>
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+        <link th:href="@{/css/customize.css}" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div th:replace="~{block/header::headerA}"></div>
+
+        <h1 th:text="${title}"></h1>
+
+        <div th:object="${selectedQuiz}">
+            <!-- <div th:text="*{question}" class="content"></div> -->
+            <section class="section">
+                <p th:text="*{question}" class="content has-text-centered is-size-3"></p>
+                <div class="columns is-centered">
+                    <div class="column is-half">
+                        <img th:src="${base64data}" class="is-centered is-flex"/>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <form method="POST" th:action="@{/quiz/answer}">
+                    <div class="columns">
+                        <div class="column">
+                            <button th:text="*{choice1}" class="button is-primary is-fullwidth is-size-4" name="selectedChoice" th:value="choice1"></button>
+                        </div>
+                        <div class="column">
+                            <button th:text="*{choice2}" class="button is-primary is-fullwidth is-size-4" name="selectedChoice" th:value="choice2"></button>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <button th:text="*{choice3}" class="button is-primary is-fullwidth is-size-4" name="selectedChoice" th:value="choice3"></button>
+                        </div>
+                        <div class="column">
+                            <button th:text="*{choice4}" class="button is-primary is-fullwidth is-size-4" name="selectedChoice" th:value="choice4"></button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="quizId" th:value="*{id}">
+                </form>
+            </section>
+        </div>
+    </body>
+</html>

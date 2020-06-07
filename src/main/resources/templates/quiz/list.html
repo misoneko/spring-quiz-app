@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>All Quiz</title>
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    </head>
+    <body>
+        <div th:replace="~{block/header::headerA}"></div>
+
+        <h1 th:text="${complete}"></h1>
+
+        <section class="section">
+            <div class="columns">
+                <div class="column">
+                    <p class="has-text-centered is-size-4">クイズ一覧</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div th:each="quiz : ${quizList}" th:object="${quiz}" class="columns card has-background-light" style="margin-bottom:2rem">
+                <div class="column is-three-quarters">
+                    <p th:text="*{question}" class="has-text-centered"></p>
+                </div>
+                <!-- <div class="column is-one-quarter"> -->
+                <div class="column">
+                    <form method="POST" th:action="@{/quiz/edit}">
+                        <button class="button is-primary is-fullwidth">編集</button>
+                        <input type="hidden" name="quizId" th:value="*{id}">
+                    </form>
+                </div>
+                <!-- <div class="column is-one-quarter"> -->
+                <div class="column">
+                    <form method="POST" th:action="@{/quiz/delete}" onSubmit="return confirm('削除しますか？');">
+                        <button class="button is-primary is-fullwidth">削除</button>
+                        <input type="hidden" name="quizId" th:value="*{id}">
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="columns is-centered">
+                <a th:href="@{/quiz/create}" class="button is-warning">新規作成</a>
+            </div>
+        </section>
+    </body>
+</html>

@@ -7,14 +7,21 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     </head>
     <body>
+        <div th:replace="~{block/header::headerA}"></div>
+
         <h1 th:text="${title}"></h1>
 
         <section th:object="${selectedQuiz}" class="section">
-            <div th:text="${isCorrect} ? '正解です' : '残念。。。。不正解です'"></div>
+            <p th:text="${isCorrect} ? '正解です' : '残念。。。。不正解です'" class="has-text-centered"></p>
         </section>
-
-        <div class="">
-            <a th:href="@{/quiz}" class="button">戻る</a>
-        </div>
+        <section>
+            <div class="columns is-centered">
+                <div class="column is-one-third">
+                    <a class="button is-primary is-fullwidth" th:href="@{/quiz/question}">
+                        次の問題
+                    </a>
+                </div>
+            </div>
+        </section>
     </body>
 </html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Edit</title>
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    </head>
+    <body>
+        <div th:replace="~{block/header::headerA}"></div>
+
+        <section class="section box">
+            <p class="has-text-centered is-size-4">クイズ一覧</p>
+        </section>
+
+        <section th:object="${selectedQuizForm}" class="section">
+            <form method="POST" th:action="@{/quiz/complete}" enctype="multipart/form-data">
+                <div class="content">
+                    <p>問題文</p>
+                    <textarea th:text="*{question}" class="textarea" name="question"></textarea>
+                    <div th:if="${#fields.hasErrors('question')}" th:errors="*{question}"></div>
+                </div>
+
+                <div class="content">
+                    <p>現在の画像</p>
+                    <img th:src="${base64data}"/>
+                </div>
+
+                <div class="content">
+                    画像ファイルの選択：
+                    <input type="file" name="uploadFile" />
+                </div>
+
+                <div class="content">
+                    選択肢1：
+                    <input th:value="*{choice1}" class="input" type="text" name="choice1" />
+                    <div th:if="${#fields.hasErrors('choice1')}" th:errors="*{choice1} + 'a'"></div>
+                    <span>選択肢2</span>
+                    <input th:value="*{choice2}" class="input" type="text" name="choice2" />
+                    <div th:if="${#fields.hasErrors('choice2')}" th:value="*{choice2}"></div>
+                    選択肢3
+                    <input th:value="*{choice3}" class="input" type="text" name="choice3" />
+                    <div th:if="${#fields.hasErrors('choice3')}" th:errors="*{choice3}"></div>
+                    選択肢4
+                    <input th:value="*{choice4}" class="input" type="text" name="choice4" />
+                    <div th:if="${#fields.hasErrors('choice4')}" th:errors="*{choice4}"></div>
+                </div>
+
+                <div class="content">
+                    <p>解答</p>
+                    <div class="select">
+                        <select name="answer">
+                            <option value="choice1" th:selected="*{answer == 'choice1'}">選択肢1</option>
+                            <option value="choice2" th:selected="*{answer == 'choice2'}">選択肢2</option>
+                            <option value="choice3" th:selected="*{answer == 'choice3'}">選択肢3</option>
+                            <option value="choice4" th:selected="*{answer == 'choice4'}">選択肢4</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- ControllerでgetByIdするために必要 -->
+                <input type="hidden" name="quizId" th:value="*{id}" />
+                <!-- 既存ファイルのパス（既存の画像がある＆アップロードファイルが無い場合に、既存の画像が消されないために必要） -->
+                <input type="hidden" name="fileName" th:value="*{fileName}" />
+                <button class="button is-primary">登録</button>
+		    </form>
+        </section>
+    </body>
+</html>

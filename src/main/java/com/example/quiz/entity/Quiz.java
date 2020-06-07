@@ -4,6 +4,7 @@ public class Quiz {
     
     private int id;
     private String question;
+    private String fileName;
     private String choice1;
     private String choice2;
     private String choice3;
@@ -65,6 +66,16 @@ public class Quiz {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    
 
     
 

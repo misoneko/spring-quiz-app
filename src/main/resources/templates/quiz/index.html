@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Springboot</title>
+        <title>Top Page</title>
         <meta charset="utf-8" />
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     </head>
     <body>
-        <h1 th:text="${title}"></h1>
-
-        <section th:object="${selectedQuiz}" class="section">
-            <div th:text="*{question}" class="content"></div>
-
-            <form method="POST" th:action="@{/quiz/answer}">
-                <div class="columns">
-                    <div class="column">
-                        <button th:text="*{choice1}" class="button is-primary is-fullwidth" name="selectedChoice" th:value="choice1">
-                    </div>
-                    <div class="column">
-                        <button th:text="*{choice2}" class="button is-primary is-fullwidth" name="selectedChoice" th:value="choice2">
-                    </div>
+        <section class="section box">
+            <div class="columns">
+                <div class="column">
+                    <p class="has-text-centered is-size-3">大クイズ大会</p>
                 </div>
-                <div class="columns">
-                    <div class="column">
-                        <button th:text="*{choice3}" class="button is-primary is-fullwidth" name="selectedChoice" th:value="choice3">
-                    </div>
-                    <div class="column">
-                        <button th:text="*{choice4}" class="button is-primary is-fullwidth" name="selectedChoice" th:value="choice4">
-                    </div>
-                </div>
+            </div>
+        </section>
 
-                <input type="hidden" name="questionId" th:value="*{id}">
-		    </form>
+        <section class="section">
+            <div class="columns is-centered">
+                <div class="column is-one-third">
+                    <a class="button is-primary is-fullwidth" th:href="@{/quiz/question}">
+                        クイズに挑戦
+                    </a>
+                </div>
+            </div>
+
+            <div class="columns is-centered">
+                <div class="column is-one-quarter">
+                    <a class="button is-info is-fullwidth" th:href="@{/quiz/list}">
+                        問題一覧
+                    </a>
+                </div>
+            </div>
         </section>
     </body>
 </html>
