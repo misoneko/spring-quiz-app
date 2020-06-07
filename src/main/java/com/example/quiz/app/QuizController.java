@@ -67,7 +67,8 @@ public class QuizController {
 
     @GetMapping("/create")
     public String create(QuizForm quizForm, Model model) {
-        model.addAttribute("selectedQuizForm", quizForm);
+        // 引数のquizFormは自動で入るので、明示的にmodelにaddしなくてok（completeの方の@Validatedの話も関連）
+        // model.addAttribute("selectedQuizForm", quizForm);
 
         return "quiz/edit";
     }
@@ -87,8 +88,15 @@ public class QuizController {
 
         if (result.hasErrors()) {
             System.out.println("/complete内でresult.hasErrors");
-            System.out.println(result);
-            model.addAttribute("selectedQuizForm", quizForm);
+            // System.out.println(result);
+
+            // `@Validated`のエラー内容などを保持したままhtmlへ送りたい場合は、明示的にmodelへaddせず、自動処理に任せる
+            // （html側の名称もquizFormとする必要あり）
+            // model.addAttribute("selectedQuizForm", quizForm);
+
+            // TODO: 画像付きのクイズで編集時にバリデーションエラーが発生した場合、
+            //       画像を再表示しつつ、「もう一度画像を選択してください」の表示をさせないようにする
+
             return "quiz/edit";
         }
 
@@ -149,7 +157,7 @@ public class QuizController {
         Quiz selectedQuiz = quizOpt.get();
         QuizForm selectedQuizForm = makeQuizForm(selectedQuiz);
 
-        model.addAttribute("selectedQuizForm", selectedQuizForm);
+        model.addAttribute("quizForm", selectedQuizForm);
 
         String fileName = selectedQuiz.getFileName();
         System.out.println("ファイル名：" + fileName);
@@ -205,6 +213,9 @@ public class QuizController {
         return quiz;
     }
 
+    // quizエンティティにはMultipartFileのフィールドを設けていないため、makeQuizFormの方にはアップロードファイル関連の処理は無い
+    // （base64への変換とmodelへのaddはeditメソッドの方でやってる）
+    // （quizFormにbase64のフィールド作っても、return "quiz/edit";辺りの処理がややこしくなるのでこれで良い）
     private QuizForm makeQuizForm(Quiz quiz){
         QuizForm quizForm = new QuizForm();
         quizForm.setId(quiz.getId());
